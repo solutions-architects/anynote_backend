@@ -1,0 +1,60 @@
+name: Quality Assurance
+on: [ pull_request, push, workflow_call ]
+jobs:
+  quality-assurance:
+    name: Quality Assurance
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+    steps:
+      #----------------------------------------------
+      #        check-out repo and set-up python
+      #----------------------------------------------
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      #----------------------------------------------
+      #           install & configure poetry
+      #----------------------------------------------
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          virtualenvs-path: .venv
+          installer-parallel: true
+      #----------------------------------------------
+      # install dependencies if cache does not exist
+      #----------------------------------------------
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      #----------------------------------------------
+      #                   Linting
+      #----------------------------------------------
+      - name: Lint with ruff
+        run: |
+          make lintfix
+
+      #----------------------------------------------
+      #                   Run tests
+      #----------------------------------------------
+      - name: Run tests
+        run: |
+          make test
+      # Environment variables set the
+        env:
+          DJANGO_PROJECT_DATABASES: '{"default":{"HOST":"db"}}'
+          DJANGO_PROJECT_LOCAL_SETTINGS_PATH: './src/config/settings/templates/settings.github.py'
