@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Intended to run in a docker container. Is a Dockerfile entrypoint.
 
 # Flag to make errors stop the execution
