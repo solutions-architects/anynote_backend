@@ -1,4 +1,4 @@
-# Django-boilerplate
+# Anynote Backend Django Server
 
 ### System Dependencies
 

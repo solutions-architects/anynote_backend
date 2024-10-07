@@ -1,0 +1,3 @@
+"""
+Django Rest Framework configuration.
+"""
