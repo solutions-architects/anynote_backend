@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     "rest_framework",
     # Apps
     "src.api.apps.ApiConfig",
+    "src.authentication.apps.AuthenticationConfig",
 ]
 
 MIDDLEWARE = [
