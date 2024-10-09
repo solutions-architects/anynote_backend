@@ -11,7 +11,7 @@ services:
       DJANGO_PROJECT_DATABASES: '{"default":{"HOST":"db"}}'
       DJANGO_PROJECT_LOCAL_SETTINGS_PATH: 'local/settings.prod.py'
     volumes:
-    - info_logs:/opt/project/logs/  
+    - info_logs:/opt/project/logs/
 
 
   db:
@@ -29,5 +29,5 @@ services:
 volumes:
   postgresql-data:
     driver: local
-  info_logs:  
+  info_logs:
     name: info_logs
