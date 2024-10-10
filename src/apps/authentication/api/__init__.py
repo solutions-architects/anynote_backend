@@ -1,0 +1,1 @@
+"""Authentication app API module."""
