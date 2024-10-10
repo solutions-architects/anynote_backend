@@ -14,9 +14,8 @@ INSTALLED_APPS = [
     # Third party
     "rest_framework",
     # Apps
-    "src.api.apps.ApiConfig",
-    "src.authentication.apps.AuthenticationConfig",
-    "src.anynote.apps.AnynoteConfig",
+    "src.apps.authentication.apps.AuthenticationConfig",
+    "src.apps.anynote.apps.AnynoteConfig",
 ]
 
 MIDDLEWARE = [
