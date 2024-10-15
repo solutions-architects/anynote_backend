@@ -8,7 +8,7 @@ class Note(models.Model):
     """
     Note model.
 
-    Can be *located* inside a folder or not be *located* at any.
+    Can be *located* inside a folder or not at any.
     """
 
     user = models.ForeignKey(User, related_name="notes", on_delete=models.CASCADE)
@@ -25,7 +25,7 @@ class Note(models.Model):
 
     def save(self, *args, **kwags):
         self.hash = self.generate_hash()
-        # The self.hash will be calculated from the content of the Note.
+        # The self.hash will be generated from the content of the Note.
         return super().save(*args, **kwags)
 
     def generate_hash(self):
