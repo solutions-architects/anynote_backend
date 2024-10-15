@@ -13,11 +13,19 @@ class NoteAPIListCreate(generics.ListCreateAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
+    def get_queryset(self):
+        """Return queryset of user's notes."""
+        return Note.objects.filter(user=self.request.user)
+
 
 class NoteAPIRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """Note API update view."""
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        """Return queryset of user's notes."""
+        return Note.objects.filter(user=self.request.user)
 
 
 noteApiListCreate = NoteAPIListCreate.as_view()
@@ -31,11 +39,21 @@ class FolderAPIListCreate(generics.ListCreateAPIView):
     queryset = Folder.objects.all()
     serializer_class = FolderSerializer
 
+    # TODO! RESTRICT THE QUERYSET WHEN AUTHENTICATION IS READY
+    # def get_queryset(self):
+    #     """Return queryset of user's folders."""
+    #     return Folder.objects.filter(user=self.request.user)
+
 
 class FolderAPIRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """Folder API views set."""
     queryset = Folder.objects.all()
     serializer_class = FolderSerializer
+
+    # TODO! RESTRICT THE QUERYSET WHEN AUTHENTICATION IS READY
+    # def get_queryset(self):
+    #     """Return queryset of user's folders."""
+    #     return Folder.objects.filter(user=self.request.user)
 
 
 folderApiListCreate = FolderAPIListCreate.as_view()
