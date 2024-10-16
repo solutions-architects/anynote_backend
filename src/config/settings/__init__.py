@@ -26,9 +26,9 @@ if not os.path.isabs(LOCAL_SETTINGS_PATH):
 include(
     "logging.py",
     "base.py",
-    "rest_framework.py",
     "app_specific.py",
     optional(LOCAL_SETTINGS_PATH),
+    "rest_framework.py",
     "environment.py",
     "docker.py",
 )
