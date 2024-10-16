@@ -1,12 +1,17 @@
 from django.contrib import admin
-from django.urls import path
-from src.apps.authentication.views import regView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from django.urls import include, path
+
+from src.apps.anynote.urls import urlpatterns as anynote_urlpatterns
+from src.apps.authentication.urls import urlpatterns as authentication_urlpatterns
+
+api_urlpatterns = []
+"""Aggregate all urls from apps APIs."""
+api_urlpatterns += anynote_urlpatterns
+api_urlpatterns += authentication_urlpatterns
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/reg", regView, name="reg_api"),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path("api/", include(api_urlpatterns)),
+    # all given API routes will start with api/...
 ]
