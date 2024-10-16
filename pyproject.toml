@@ -180,6 +180,10 @@ ignore = [
     # https://docs.astral.sh/ruff/rules/undefined-local-with-import-star/
     "F403",
 ]
+"views.py" = [
+    # https://docs.astral.sh/ruff/rules/mixed-case-variable-in-global-scope/
+    "N816",
+]
 "conftest.py" = [
     # https://docs.astral.sh/ruff/rules/undefined-local-with-import-star/
     "F403",
