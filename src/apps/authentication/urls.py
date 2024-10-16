@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from .views import regView
+from .api.views import regView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 urlpatterns = [
