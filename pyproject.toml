@@ -44,6 +44,9 @@ djangorestframework = "^3.15.2"
 # Secure token-based auth for drf
 # https://jazzband.github.io/django-rest-knox/,
 django-rest-knox = "^5.0.1"
+#
+djangorestframework-simplejwt = "^5.3.1"
+
 
 
 # -------------------------------------------------
@@ -70,7 +73,6 @@ rich = "^13.8.0"
 # A full-featured YAML processing framework for Python
 # https://github.com/yaml/pyyaml
 pyyaml = "^6.0.2"
-djangorestframework-simplejwt = "^5.3.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.4"

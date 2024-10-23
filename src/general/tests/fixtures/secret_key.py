@@ -1,4 +1,3 @@
-import os
 from django.test import override_settings
 
 import pytest
