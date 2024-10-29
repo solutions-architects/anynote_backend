@@ -73,6 +73,7 @@ rich = "^13.8.0"
 # A full-featured YAML processing framework for Python
 # https://github.com/yaml/pyyaml
 pyyaml = "^6.0.2"
+drf-yasg = "^1.21.8"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.4"
@@ -142,6 +143,7 @@ pythonpath = "." # without this, pytest cannot find the src module
 python_files = "test_*.py"
 testpaths = ["src"]
 #filterwarnings = "ignore::DeprecationWarning:^(?!node\\.).*:" if deprecation warns are annoying
+
 
 
 

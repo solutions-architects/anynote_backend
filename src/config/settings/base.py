@@ -13,6 +13,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Third party
     "rest_framework",
+    'drf_yasg',
     # Apps
     "src.apps.authentication.apps.AuthenticationConfig",
     "src.apps.anynote.apps.AnynoteConfig",
@@ -79,3 +80,5 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"  # type: ignore # noqa: F821
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
