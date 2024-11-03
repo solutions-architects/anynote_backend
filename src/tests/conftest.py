@@ -1,6 +1,6 @@
 import os
 
-from src.general.tests.fixtures import *
+from src.tests.fixtures import *
 
 """
 Import fixtures here to use them in tests.

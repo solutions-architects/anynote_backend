@@ -16,7 +16,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,  # noqa: F821
+    "SIGNING_KEY": SECRET_KEY,  # noqa: F821 # type: ignore
     "VERIFYING_KEY": "",
     "AUDIENCE": None,
     "ISSUER": None,
@@ -42,3 +42,6 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+if not SECRET_KEY:  # noqa: F821 # type: ignore
+    SIMPLE_JWT["SIGNING_KEY"] = "not_implemented_signing_key"
