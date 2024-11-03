@@ -14,7 +14,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = "__all__"
+        fields = "__all__"  # "__all__" # ("id", "content", "hash")
 
 
 class FolderSerializer(serializers.ModelSerializer):
@@ -22,4 +22,4 @@ class FolderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Folder
-        fields = "__all__"
+        fields = "__all__"  # "__all__" # ("id", "name")
