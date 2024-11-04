@@ -2,6 +2,7 @@ import hashlib
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Note(models.Model):
@@ -34,6 +35,10 @@ class Note(models.Model):
         hash_value: str = hashlib.sha256(str_content.encode("utf-8")).hexdigest()
         return hash_value  # 64 characters long string
 
+    def get_absolute_url(self):
+        """Get absolute url of a certain model instance."""
+        return reverse("notes-detail", kwargs={"pk": self.pk})
+
 
 class Folder(models.Model):
     """
@@ -50,3 +55,7 @@ class Folder(models.Model):
         "Folder", related_name="folders", related_query_name="folder", blank=True, null=True, on_delete=models.CASCADE
     )
     # Folder can be inside other Folder or has no parent
+
+    def get_absolute_url(self):
+        """Get absolute url of a certain model instance."""
+        return reverse("folders-detail", kwargs={"pk": self.pk})

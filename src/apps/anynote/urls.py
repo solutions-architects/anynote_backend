@@ -16,18 +16,12 @@ urlpatterns = [
         "notes/",
         noteApiListCreate,
     ),
-    path(
-        "notes/<int:pk>",
-        noteApiRetrieveUpdateDestroy,
-    ),
+    path("notes/<int:pk>", noteApiRetrieveUpdateDestroy, name="notes-detail"),
     path(
         "folders/",
         folderApiListCreate,
     ),
-    path(
-        "folders/<int:pk>",
-        folderApiRetrieveUpdateDestroy,
-    ),
+    path("folders/<int:pk>", folderApiRetrieveUpdateDestroy, name="folders-detail"),
     path(
         "folders/<int:pk>/notes",
         folderApiChildNotesListCreate,
