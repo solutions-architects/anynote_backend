@@ -5,16 +5,22 @@ jobs:
     name: Quality Assurance
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres
-        env:
-          POSTGRES_DB: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-        # Maps tcp port 5432 on service container to the host
-        - 5432:5432
+    # !! Due to unexpected  errors with db connection in pytest-django, SQLite is used as the database in github actions
+    # services:
+    #   db:
+    #     image: postgres
+    #     env:
+    #       POSTGRES_DB: postgres
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: postgres
+    #     ports:
+    #     # Maps tcp port 5432 on service container to the host
+    #     - 5432:5432
+    #     options:
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
 
 
     steps:
@@ -50,7 +56,7 @@ jobs:
       #----------------------------------------------
       - name: Lint with ruff
         run: |
-          make lintfix
+          make lint
 
       #----------------------------------------------
       #                   Run tests

@@ -14,12 +14,12 @@ setupenv:
 # ----------------------------------------------------------------------------
 # Ruff linting
 # ============================================================================
-.PHONY: lintcheck
-lintcheck:
-	poetry run ruff check
-.PHONY: lintfix
-lintfix:
+.PHONY: lint
+lint:
 	poetry run ruff check --fix
+.PHONY: lintf
+lintf:
+	poetry run ruff format
 
 # ----------------------------------------------------------------------------
 # Pytest
