@@ -12,22 +12,10 @@ from .api.views import (
 )
 
 urlpatterns = [
-    path(
-        "notes/",
-        noteApiListCreate,
-    ),
+    path("notes/", noteApiListCreate),
     path("notes/<int:pk>", noteApiRetrieveUpdateDestroy, name="notes-detail"),
-    path(
-        "folders/",
-        folderApiListCreate,
-    ),
+    path("folders/", folderApiListCreate),
     path("folders/<int:pk>", folderApiRetrieveUpdateDestroy, name="folders-detail"),
-    path(
-        "folders/<int:pk>/notes",
-        folderApiChildNotesListCreate,
-    ),
-    path(
-        "folders/<int:pk>/folders",
-        folderApiChildFoldersListCreate,
-    ),
+    path("folders/<int:pk>/notes", folderApiChildNotesListCreate),
+    path("folders/<int:pk>/folders", folderApiChildFoldersListCreate),
 ]

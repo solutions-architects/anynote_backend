@@ -13,7 +13,7 @@ logging.basicConfig(
 log = logging.getLogger("test_log")
 
 
-def test_user_registration(api_client, db, settings) -> None:
+def test_user_registration(unauthenticated_client, db, settings) -> None:
     """Test the user registration API."""
 
     log.info(f"SECRET_KEY:{settings.SECRET_KEY}")
@@ -25,7 +25,7 @@ def test_user_registration(api_client, db, settings) -> None:
         "password2": "TestPass1",
     }
 
-    response = api_client.post("/api/auth/reg/", data=data, format="json")
+    response = unauthenticated_client.post("/api/auth/reg/", data=data, format="json")
     user_id = response.data["id"]
     log.info(f"Registered user with id: {user_id}")
     log.info(f"Response: {response.data}")
@@ -40,5 +40,7 @@ def test_user_registration(api_client, db, settings) -> None:
 
     log.info(f"data: {data}")
 
-    response = api_client.post("/api/token/", data=data, format="json")
+    response = unauthenticated_client.post("/api/token/", data=data, format="json")
     assert response.status_code == 200
+    assert "access" in response.data
+    assert "refresh" in response.data
