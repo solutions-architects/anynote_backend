@@ -68,7 +68,7 @@ folderApiListCreate = FolderAPIListCreate.as_view()
 
 folderApiRetrieveUpdateDestroy = FolderAPIRetrieveUpdateDestroy.as_view()
 
-class FolderAPIChildNotesListCreate(generics.ListAPIView):
+class FolderAPIChildNotesList(generics.ListAPIView):
     "List/Create views set for a folders child notes."
     serializer_class = NoteSerializer
 
@@ -80,7 +80,7 @@ class FolderAPIChildNotesListCreate(generics.ListAPIView):
         folder = Folder.objects.get(id=pk)
         return folder.notes.all()
 
-class FolderAPIChildFoldersListCreate(generics.ListAPIView):
+class FolderAPIChildFoldersList(generics.ListAPIView):
     "List/Create views set for a folders child folders."
     serializer_class = FolderSerializer
 
@@ -92,6 +92,6 @@ class FolderAPIChildFoldersListCreate(generics.ListAPIView):
         folder = Folder.objects.get(id=pk)
         return folder.folders.all()
 
-folderApiChildNotesListCreate = FolderAPIChildNotesListCreate.as_view()
+folderApiChildNotesList = FolderAPIChildNotesList.as_view()
 
-folderApiChildFoldersListCreate = FolderAPIChildFoldersListCreate.as_view()
+folderApiChildFoldersList = FolderAPIChildFoldersList.as_view()

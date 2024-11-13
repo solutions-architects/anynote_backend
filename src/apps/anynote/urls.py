@@ -3,8 +3,8 @@
 from django.urls import path
 
 from .api.views import (
-    folderApiChildFoldersListCreate,
-    folderApiChildNotesListCreate,
+    folderApiChildFoldersList,
+    folderApiChildNotesList,
     folderApiListCreate,
     folderApiRetrieveUpdateDestroy,
     noteApiListCreate,
@@ -16,6 +16,6 @@ urlpatterns = [
     path("notes/<int:pk>", noteApiRetrieveUpdateDestroy, name="notes-detail"),
     path("folders/", folderApiListCreate),
     path("folders/<int:pk>", folderApiRetrieveUpdateDestroy, name="folders-detail"),
-    path("folders/<int:pk>/notes", folderApiChildNotesListCreate),
-    path("folders/<int:pk>/folders", folderApiChildFoldersListCreate),
+    path("folders/<int:pk>/notes", folderApiChildNotesList),
+    path("folders/<int:pk>/folders", folderApiChildFoldersList),
 ]
