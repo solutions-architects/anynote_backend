@@ -1,5 +1,5 @@
 """
-This is an exemplar test. Write your tests for each application separately in the apps' tests/ folders.
+This is an exemplar test.
 """
 
 

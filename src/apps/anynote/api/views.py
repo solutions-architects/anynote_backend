@@ -2,16 +2,16 @@
 
 from rest_framework import generics, permissions
 
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from src.apps.anynote.models import Folder, Note
 
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import FolderSerializer, NoteSerializer
 
 # Notes endpoints
 
 class NoteAPIListCreate(generics.ListCreateAPIView):
     """Note API list and create view."""
-    queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
     authentication_classes = [JWTAuthentication]
@@ -24,7 +24,6 @@ class NoteAPIListCreate(generics.ListCreateAPIView):
 
 class NoteAPIRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """Note API update view."""
-    queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
     authentication_classes = [JWTAuthentication]
@@ -43,7 +42,6 @@ noteApiRetrieveUpdateDestroy = NoteAPIRetrieveUpdateDestroy.as_view()
 
 class FolderAPIListCreate(generics.ListCreateAPIView):
     """Folder API views set."""
-    queryset = Folder.objects.all()
     serializer_class = FolderSerializer
 
     authentication_classes = [JWTAuthentication]
@@ -56,7 +54,6 @@ class FolderAPIListCreate(generics.ListCreateAPIView):
 
 class FolderAPIRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """Folder API views set."""
-    queryset = Folder.objects.all()
     serializer_class = FolderSerializer
 
     authentication_classes = [JWTAuthentication]
@@ -70,3 +67,31 @@ class FolderAPIRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 folderApiListCreate = FolderAPIListCreate.as_view()
 
 folderApiRetrieveUpdateDestroy = FolderAPIRetrieveUpdateDestroy.as_view()
+
+class FolderAPIChildNotesList(generics.ListAPIView):
+    "List/Create views set for a folders child notes."
+    serializer_class = NoteSerializer
+
+    authentication_classes = [JWTAuthentication]
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        pk = self.kwargs["pk"] # primary key of a folder
+        folder = Folder.objects.get(id=pk)
+        return folder.notes.all()
+
+class FolderAPIChildFoldersList(generics.ListAPIView):
+    "List/Create views set for a folders child folders."
+    serializer_class = FolderSerializer
+
+    authentication_classes = [JWTAuthentication]
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        pk = self.kwargs["pk"] # primary key of a folder
+        folder = Folder.objects.get(id=pk)
+        return folder.folders.all()
+
+folderApiChildNotesList = FolderAPIChildNotesList.as_view()
+
+folderApiChildFoldersList = FolderAPIChildFoldersList.as_view()

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from split_settings.tools import include, optional
 
-from src.general.tests.pytest import is_testing
+from src.general.utils.pytest import is_testing
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
@@ -33,7 +33,7 @@ include(
     "docker.py",
 )
 
-# SECRET_KEY assertion guarantees that a developer will not accidentally use prod or dev settings for testing
+# SECRET_KEY assertion guarantees that a developer will not accidentally use test settings for prod or dev
 # The SECRET_KEY for testing will be set later as a pytest autouse fixture in general/tests/fixtures/secret_key.
 if not is_testing():
     assert SECRET_KEY is not NotImplemented  # type: ignore # noqa: F821
