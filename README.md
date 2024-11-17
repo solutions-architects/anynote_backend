@@ -14,5 +14,5 @@ make setupenv
 
 ```bash
 # Copy the template settings to `local` directory.
-invoke copysettigns
+invoke copysettings
 ```
