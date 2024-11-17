@@ -10,7 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view
 from django.urls import reverse
 import jwt
-from .utils import Util
+from .utils import EmailSender
 
 
 
@@ -44,14 +44,14 @@ class RegisterView(generics.CreateAPIView):
         relative_link = reverse('email-verify')
         absurl = 'http://' + current_site + relative_link + "?token=" + str(tokens)
         email_body = ' Welcome to the club, ' + user['username'] + \
-                     ' \n Use the link below to verify your email \n' + absurl
+                     ' \nUse the link below to verify your email \n' + absurl
 
         #data for sending an email
         data = {'email_body': email_body, 'to_email': user['email'],
                 'email_subject': 'Verify your email'}
 
         #send email
-        Util.send_email(data=data)
+        EmailSender.send_email(data=data)
 
         return response.Response({'user_data': user, 'access_token' : str(tokens), "adress:":absurl}, status=status.HTTP_201_CREATED)
 

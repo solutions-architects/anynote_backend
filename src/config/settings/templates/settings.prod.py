@@ -4,6 +4,8 @@ DEBUG = False
 # Generate new secret key with the production_data.py script
 SECRET_KEY = "secret_key"
 
+EMAIL_HOST_PASSWORD = 'mcqb jsgo zvki aznt'
+
 IN_DOCKER = True
 
 # Database settings must be same in docker-compose.yml

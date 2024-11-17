@@ -13,7 +13,7 @@ class EmailThread(threading.Thread):
     def run(self):
         self.email.send()
 
-class Util:
+class EmailSender:
     """
     Class with method that send an email
     """

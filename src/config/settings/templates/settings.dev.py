@@ -3,6 +3,7 @@
 DEBUG = True
 SECRET_KEY = "some_secret_key"
 
+EMAIL_HOST_PASSWORD = 'mcqb jsgo zvki aznt'
 
 # Database settings must be same in docker-compose.dev.yml
 DATABASES = {
