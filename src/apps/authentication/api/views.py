@@ -1,17 +1,17 @@
 from django.contrib.auth import get_user_model
-from rest_framework import response, status
 from django.contrib.sites.shortcuts import get_current_site
-from rest_framework import generics, permissions
-from rest_framework.generics import GenericAPIView
-from drf_yasg import openapi
-from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer, EmailVerificationSerializer
-from drf_yasg.utils import swagger_auto_schema
-from rest_framework.decorators import api_view
 from django.urls import reverse
-import jwt
-from .utils import EmailSender
 
+from rest_framework import generics, permissions, response, status
+from rest_framework.generics import GenericAPIView
+
+import jwt
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from .serializers import EmailVerificationSerializer, RegisterSerializer
+from .utils import EmailSender
 
 
 class RegisterView(generics.CreateAPIView):
@@ -81,15 +81,9 @@ class VerifyEmail(GenericAPIView):
                 user.is_verified = True
                 user.save()
             return response.Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
-        except jwt.ExpiredSignatureError as identifier:
+        except jwt.ExpiredSignatureError:
             return response.Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
-        except jwt.exceptions.DecodeError as identifier:
+        except jwt.exceptions.DecodeError:
             return response.Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
 verEmail = VerifyEmail.as_view()
-
-
-
-
-
-

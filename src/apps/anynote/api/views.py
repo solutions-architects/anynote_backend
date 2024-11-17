@@ -2,9 +2,10 @@
 
 from rest_framework import generics, permissions
 
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from src.apps.anynote.models import Folder, Note
 
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import FolderSerializer, NoteSerializer
 
 # Notes endpoints

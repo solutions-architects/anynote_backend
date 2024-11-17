@@ -35,6 +35,8 @@ psycopg = {extras = ["binary"], version = "^3.2.1"}
 # Redis cache backend for Django
 # https://github.com/jazzband/django-redis
 django-redis  = "^5.4.0"
+# https://pypi.org/project/django-cors-headers/
+django-cors-headers = "^4.6.0"
 
 # -------------------------------------------------
 # DJANGO REST FRAMEWORK
@@ -74,6 +76,7 @@ rich = "^13.8.0"
 # https://github.com/yaml/pyyaml
 pyyaml = "^6.0.2"
 drf-yasg = "^1.21.8"
+
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.4"
@@ -143,6 +146,7 @@ pythonpath = "." # without this, pytest cannot find the src module
 python_files = "test_*.py"
 testpaths = ["src"]
 #filterwarnings = "ignore::DeprecationWarning:^(?!node\\.).*:" if deprecation warns are annoying
+
 
 
 
