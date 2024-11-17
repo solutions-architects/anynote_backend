@@ -1,4 +1,5 @@
 import hashlib
+from django.contrib.auth import get_user_model
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -11,7 +12,7 @@ class Note(models.Model):
     Can be *located* inside a folder or not at any.
     """
 
-    user = models.ForeignKey(User, related_name="notes", on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), related_name="notes", on_delete=models.CASCADE)
     content = models.JSONField()
     """Json field with the note structure."""
 
@@ -42,7 +43,7 @@ class Folder(models.Model):
     Folder contains other folders or notes.
     """
 
-    user = models.ForeignKey(User, related_name="folders", on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), related_name="folders", on_delete=models.CASCADE)
 
     name = models.TextField()
 
