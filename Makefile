@@ -75,13 +75,15 @@ superuser:
 # ============================================================================
 .PHONY: up-db
 up-db: ## up local new database if new
-	docker-compose -f docker-compose.dev.yaml up --force-recreate devdb
+	docker compose -f docker-compose.db.yaml up --force-recreate devdb
+
+.PHONY: up-dev
+up-dev:
+	docker compose -f docker-compose.dev.yaml up --build
 
 .PHONY: up-prod
 up-prod:
-	docker-compose build
-	docker-compose -f docker-compose.yaml up
-
+	docker compose -f docker-compose.yaml up --build
 
 # ----------------------------------------------------------------------------
 # General

@@ -1,22 +1,10 @@
 services:
 
-  app:
-    build: .
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    depends_on:
-      - devdb
-    environment:
-      DJANGO_PROJECT_LOCAL_SETTINGS_PATH: 'local/settings.dev.py'
-    volumes:
-    - info_logs:/opt/project/logs/
-
   devdb:
     image: postgres
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5433:5432" # IMPORTANT! The port is 5433 to allow uncontainerized django use postgres container
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -27,5 +15,3 @@ services:
 volumes:
   postgresql-data:
     driver: local
-  info_logs:
-    name: info_logs
