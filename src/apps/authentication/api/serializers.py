@@ -3,16 +3,16 @@ import re
 from django.contrib.auth import get_user_model
 
 from rest_framework import serializers, validators
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 def validate_password(password):
     """Check password requirements"""
     if len(password) < 8:
-        raise serializers.ValidationError(("Пароль должен содержать не менее 8 символов."))
+        raise serializers.ValidationError(("Password should be at least 8 characters long"))
     if not re.search(r"\d", password):
-        raise serializers.ValidationError(("Пароль должен содержать хотя бы одну цифру."))
+        raise serializers.ValidationError(("Password should contain at least 1 number"))
     if not re.search(r"[A-Z]", password):
-        raise serializers.ValidationError(("Пароль должен содержать хотя бы одну заглавную букву."))
+        raise serializers.ValidationError(("Password should contain at least 1 capital letter"))
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -23,27 +23,26 @@ class RegisterSerializer(serializers.ModelSerializer):
     in case of successful registration
     """
 
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(
+        write_only=True, 
+        required=True, 
+        validators=[validate_password]
+    )
     email = serializers.EmailField(
-        required=True, validators=[validators.UniqueValidator(queryset=get_user_model().objects.all())]
+        required=True, 
+        validators=[validators.UniqueValidator(queryset=get_user_model().objects.all())]
     )
 
     class Meta:
         model = get_user_model()
-        fields = ("username", "email", "password", "password2", "first_name", "last_name")
+        fields = ("username", "email", "password")
 
     def validate(self, attrs):
-        if attrs["password"] != attrs["password2"]:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
-
         return attrs
 
     def create(self, validated_data):
         user = get_user_model().objects.create(
             username=validated_data.get("username"),
-            first_name=validated_data.get("first_name", ""),
-            last_name=validated_data.get("last_name", ""),
             email=validated_data.get("email", ""),
         )
 
@@ -52,10 +51,13 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
-
 class EmailVerificationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=555)
 
     class Meta:
         model = get_user_model()
         fields = ["token"]
+
+
+class EmailTokenObtainSerializer(TokenObtainPairSerializer):
+    username_field = get_user_model().EMAIL_FIELD
