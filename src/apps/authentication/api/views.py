@@ -9,8 +9,9 @@ import jwt
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import EmailVerificationSerializer, RegisterSerializer
+from .serializers import EmailVerificationSerializer, RegisterSerializer, EmailTokenObtainSerializer
 from .utils import EmailSender
 
 
@@ -28,32 +29,34 @@ class RegisterView(generics.CreateAPIView):
 
     @swagger_auto_schema(request_body=RegisterSerializer)
     def post(self, request):
-        #create user
-        data = request.data
-        serializer = self.serializer_class(data=data)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        user = serializer.data
+    
+        user_data = serializer.data
 
-        #Get user email to create new access_token for them
-        email = get_user_model().objects.get(email=user["email"])
-        tokens = RefreshToken.for_user(email).access_token
+        user = get_user_model().objects.get(email=user_data['email'])
+        tokens = RefreshToken.for_user(user).access_token
 
-        #Create the link that will redirect the user to the verification page
+        # Create the link that will redirect the user to the verification page
         current_site = get_current_site(request).domain
         relative_link = reverse('email-verify')
-        absurl = 'http://' + current_site + relative_link + "?token=" + str(tokens)
-        email_body = ' Welcome to the club, ' + user['username'] + \
-                     ' \nUse the link below to verify your email \n' + absurl
 
-        #data for sending an email
-        data = {'email_body': email_body, 'to_email': user['email'],
-                'email_subject': 'Verify your email'}
+        absurl = f'http://{current_site}{relative_link}?token={tokens}' 
+        'http://' + 'localhost:5173/verify-email' + '?token=' + str(tokens)
 
-        #send email
-        EmailSender.send_email(data=data)
+        email_body = 'Welcome to the club, buddy\n'\
+        + 'Click the link below to verify your email\n{absurl}'
 
-        return response.Response({'user_data': user, 'access_token' : str(tokens), "adress:":absurl}, status=status.HTTP_201_CREATED)
+        email_data = {
+            'email_body': email_body, 
+            'to_email': user.email,
+            'email_subject': 'Verify your email'
+        }
+
+        EmailSender.send_email(data=email_data)
+
+        return response.Response({'access' : str(tokens), 'address:':absurl}, status=status.HTTP_201_CREATED)
 
 regView = RegisterView.as_view()
 
@@ -69,7 +72,11 @@ class VerifyEmail(GenericAPIView):
 
     #Description of the parameter for swagger
     token_param_config = openapi.Parameter(
-        'token', in_=openapi.IN_QUERY, description='Description', type=openapi.TYPE_STRING)
+        'token', 
+        in_=openapi.IN_QUERY, 
+        description='Description', 
+        type=openapi.TYPE_STRING
+    )
 
     @swagger_auto_schema(manual_parameters=[token_param_config])
     def get(self, request):
@@ -82,8 +89,13 @@ class VerifyEmail(GenericAPIView):
                 user.save()
             return response.Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
         except jwt.ExpiredSignatureError:
-            return response.Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
+            return response.Response({'error': 'Activation expired'}, status=status.HTTP_400_BAD_REQUEST)
         except jwt.exceptions.DecodeError:
             return response.Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
 verEmail = VerifyEmail.as_view()
+
+class EmailTokenObtainPairView(TokenObtainPairView):
+    serializer_class = EmailTokenObtainSerializer
+
+emailTokenObtainPairView = EmailTokenObtainPairView.as_view()
